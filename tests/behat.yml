@@ -1,0 +1,15 @@
+default:
+   autoload:
+      '': %paths.base%/acceptance/
+
+   suites:
+      defaults:
+         contexts: []
+
+      dependency_injection:
+         paths:
+            - %paths.base%/acceptance/features/
+         contexts:
+            - Bauhaus\DependencyInjectionUserContext
+         filters:
+            role: dependency injection user

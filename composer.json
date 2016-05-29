@@ -41,7 +41,7 @@
 
    "autoload-dev": {
       "psr-4": {
-         "Bauhaus\\Container\\": [
+         "Bauhaus\\": [
             "tests/src/",
             "tests/acceptance/",
             "tests/unit/"
