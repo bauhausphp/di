@@ -60,3 +60,6 @@ And finally, explore it and may the force be with you!
 - [composer](https://getcomposer.org/)
 - [phpunit](https://phpunit.de/)
 - [behat](http://docs.behat.org/en/v3.0/)
+- Dependecy Injection Pattern:
+   - https://www.youtube.com/watch?v=IKD2-MAkXyQ
+   - http://martinfowler.com/articles/injection.html
