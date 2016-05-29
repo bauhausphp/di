@@ -6,7 +6,7 @@ use Bauhaus\Container\RegistrableContainer;
 use Bauhaus\Container\Exception\ContainerItemNotFoundException;
 use Bauhaus\DependencyInjection\Exception\DependencyInjectionServiceNotFoundException;
 
-class DependencyInjection extends RegistrableContainer
+class DependencyInjection extends RegistrableContainer implements DependencyInjectionInterface
 {
     public function register(string $serviceName, $service)
     {
