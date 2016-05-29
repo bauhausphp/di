@@ -1,0 +1,16 @@
+language: php
+
+php:
+   - 7.0
+
+install:
+   - composer install
+   - composer require satooshi/php-coveralls:1.*
+   - mkdir -p build/logs
+
+script:
+   - vendor/bin/phpunit -c tests/phpunit.xml --coverage-clover build/logs/clover.xml
+   - vendor/bin/behat --config tests/behat.yml
+
+after_success:
+   - vendor/bin/coveralls -v --coverage_clover=build/logs/clover.xml
