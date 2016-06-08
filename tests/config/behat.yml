@@ -1,6 +1,6 @@
 default:
    autoload:
-      '': %paths.base%/acceptance/
+      '': %paths.base%/../acceptance/
 
    suites:
       defaults:
@@ -8,7 +8,7 @@ default:
 
       dependency_injection:
          paths:
-            - %paths.base%/acceptance/features/
+            - %paths.base%/../acceptance/features/
          contexts:
             - Bauhaus\DependencyInjectionUserContext
          filters:
