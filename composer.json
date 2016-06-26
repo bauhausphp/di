@@ -25,12 +25,12 @@
 
    "require": {
       "php": ">=7.0",
-      "bauhaus/container": "~v1.0"
+      "bauhaus/container": "dev-master"
    },
 
    "autoload": {
       "psr-4": {
-         "Bauhaus\\": "src/"
+         "Bauhaus\\DI\\": "src/"
       }
    },
 
@@ -41,10 +41,12 @@
 
    "autoload-dev": {
       "psr-4": {
-         "Bauhaus\\": [
-            "tests/src/",
+         "Bauhaus\\DI\\": [
             "tests/acceptance/",
             "tests/unit/"
+         ],
+         "Bauhaus\\DI\\": [
+            "tests/doubles/"
          ]
       }
    }
