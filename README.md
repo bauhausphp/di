@@ -19,17 +19,29 @@ Injection Container* pattern.
 To understand how to use this DI, read the
 [tests](https://github.com/bauhausphp/package-di/blob/master/tests/acceptance/features/dependency_injection.feature).
 
-> If you have issues about the test frameworks, see the
-> [references](https://github.com/bauhausphp/package-di#references).
+To understand how to work with the dependency injection container, read the
+[features](https://github.com/bauhausphp/package-di/blob/master/tests/acceptance/features/)
+used in the acceptance tests implemented using
+[behat](http://docs.behat.org/en/v3.0/).
 
-## Contributing
+## Install
+
+The easiest way to install is by using [composer](https://getcomposer.org/):
+
+```
+$ composer require bauhaus/di:dev-master
+```
+
+## Contribute
 
 Did you find some problem or do you want to make this project better?
 
-1. You can open an issue [here](https://github.com/bauhausphp/package-di/issues)
-2. Or read the next section to code together :)
+1. Did you find some problem? You can easy open an issue
+   [here](https://github.com/bauhausphp/package-di/issues)
+2. Do you want to make this project better? Follow the next section to start
+   code together :)
 
-### Coding
+### Code Together
 
 To start coding in this project, you will need first to clone this repository:
 
@@ -45,21 +57,11 @@ versions locked in the `composer.lock`. So, you just have to install them:
 composer install
 ```
 
-Third, the tests! We have *unit* and *acceptance* tests that were implemented
-using `phpunit` and `behat` frameworks respectively:
+Third, the tests! There are *unit* and *acceptance* tests that were implemented
+using [phpunit](https://phpunit.de/) and [behat](http://docs.behat.org/en/v3.0/)
+frameworks respectively and you can run them by runnig the following commands:
 
 ```
 $ vendor/bin/phpunit -c tests/phpunit.xml
 $ vendor/bin/behat --config tests/behat.yml
 ```
-
-And finally, explore it and may the force be with you!
-
-## References
-
-- [composer](https://getcomposer.org/)
-- [phpunit](https://phpunit.de/)
-- [behat](http://docs.behat.org/en/v3.0/)
-- Dependecy Injection Pattern:
-   - https://www.youtube.com/watch?v=IKD2-MAkXyQ
-   - http://martinfowler.com/articles/injection.html
