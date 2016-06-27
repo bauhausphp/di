@@ -5,7 +5,7 @@ Feature: Dependency Injection Container
 
    Background:
       Given an empty dependency injection container
-      And I register a "shared" service with the label "fakeService" using an anonymous function with the follow content:
+      And I register a service with the label "fakeService" using an anonymous function with the follow content:
       """
       return new Bauhaus\DI\FakeService();
       """

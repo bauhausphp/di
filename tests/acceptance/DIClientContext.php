@@ -22,10 +22,9 @@ class DIClientContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I register a :shared service with the label :label using an anonymous function with the follow content:
+     * @When I register a service with the label :label using an anonymous function with the follow content:
      */
     public function iRegisterAServiceWithTheLabelUsingAnAnonymousFunctionWithTheFollowContent(
-        bool $shared,
         $label,
         PyStringNode $anonymousFunctionContent
     ) {
