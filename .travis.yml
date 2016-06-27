@@ -9,8 +9,8 @@ install:
    - mkdir -p build/logs
 
 script:
-   - vendor/bin/phpunit -c tests/phpunit.xml --coverage-clover build/logs/clover.xml
-   - vendor/bin/behat --config tests/behat.yml
+   - vendor/bin/phpunit -c tests/config/phpunit.xml --coverage-clover build/logs/clover.xml
+   - vendor/bin/behat --config tests/config/behat.yml
 
 after_success:
    - vendor/bin/coveralls -v --coverage_clover=build/logs/clover.xml
