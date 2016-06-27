@@ -43,9 +43,7 @@
       "psr-4": {
          "Bauhaus\\DI\\": [
             "tests/acceptance/",
-            "tests/unit/"
-         ],
-         "Bauhaus\\DI\\": [
+            "tests/unit/",
             "tests/doubles/"
          ]
       }

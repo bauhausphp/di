@@ -10,6 +10,6 @@ default:
          paths:
             - %paths.base%/../acceptance/features/
          contexts:
-            - Bauhaus\DependencyInjectionUserContext
+            - Bauhaus\DI\DIClientContext
          filters:
-            role: dependency injection user
+            role: dependency injection client

@@ -1,27 +1,27 @@
 <?php
 
-namespace Bauhaus;
+namespace Bauhaus\DI;
 
-use Bauhaus\DependencyInjection\FakeService;
+use Bauhaus\DI\FakeService;
 
-class DpendencyInjectionTest extends \PHPUnit_Framework_TestCase
+class DITest extends \PHPUnit_Framework_TestCase
 {
     private $di = null;
 
     protected function setUp()
     {
-        $this->di = new DependencyInjection();
+        $this->di = new DI();
     }
 
     /**
      * @test
      * @dataProvider callbacksAndItsResults
      */
-    public function returnTheResultOfTheRegisteredCallback($expected, $callback)
+    public function returnTheResultOfTheRegisteredAnonynousFunction($expected, $callback)
     {
-        $this->di->register('callbackService', $callback);
+        $this->di->register('service', $callback);
 
-        $this->assertEquals($expected, $this->di->callbackService);
+        $this->assertEquals($expected, $this->di->service);
     }
 
     public function callbacksAndItsResults()
@@ -52,24 +52,20 @@ class DpendencyInjectionTest extends \PHPUnit_Framework_TestCase
      */
     public function returnSameInstaceOfClassWhenRequireTheSameRegisteredCallbackItem()
     {
-        $this->di->register('service', function () {
-            $service = new FakeService();
-            $service->pubAttr2 = 345;
-
-            return $service;
+        $this->di->register('fakeService', function () {
+            return new FakeService();
         });
 
-        $expected = $this->di->service;
-
-        $this->assertSame($expected, $this->di->service);
+        $this->assertSame($this->di->fakeService, $this->di->fakeService);
     }
 
     /**
      * @test
-     * @expectedException Bauhaus\DependencyInjection\Exception\DependencyInjectionServiceNotFoundException
+     * @expectedException Bauhaus\DI\Exception\DIServiceNotFound
+     * @expectedExceptionMessage No service with label 'wrong' found in this dependency injection container
      */
-    public function exceptionOccursWhenTryToRetrieveANonExistingItem()
+    public function exceptionOccursWhenTryToRetrieveAServiceWithNonExistingLabel()
     {
-        $this->di->nonExistingItem;
+        $this->di->wrong;
     }
 }
