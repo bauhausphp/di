@@ -62,7 +62,7 @@ class DITest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @expectedException Bauhaus\DI\Exception\DIServiceNotFound
-     * @expectedExceptionMessage No service with label 'wrong' found in this dependency injection container
+     * @expectedExceptionMessage No service with label 'wrong' was found in this dependency injection container
      */
     public function exceptionOccursWhenTryToRetrieveAServiceWithNonExistingLabel()
     {
