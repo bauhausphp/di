@@ -1,6 +1,6 @@
 {
    "name": "bauhaus/di",
-   "description": "This package implements a simple dependecy injection container.",
+   "description": "Simple dependecy injection container.",
 
    "type": "library",
    "license": "MIT",
