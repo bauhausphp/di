@@ -13,16 +13,20 @@
 
 The goal of this package is to provide a simple way to register and to load
 services that are the dependencies of other parts of your project code. In other
-words, it is a simple, but pragmatic, implementation of the *Dependency
-Injection Container* pattern.
+words, it is a  pragmatic implementation of the *Dependency Injection Container*
+pattern that supports `shared`, `lazy` and `not shared`.
 
-To understand how to use this DI, read the
-[tests](https://github.com/bauhausphp/package-di/blob/master/tests/acceptance/features/dependency_injection.feature).
+To understand how to use this *Dependency Injection Container*, read the
+[unit tests](https://github.com/bauhausphp/package-di/blob/master/tests/unit/DependencyInjectionTest.php).
 
-To understand how to work with the dependency injection container, read the
-[features](https://github.com/bauhausphp/package-di/blob/master/tests/acceptance/features/)
-used in the acceptance tests implemented using
-[behat](http://docs.behat.org/en/v3.0/).
+> You can have a behavior summary of this *Dependency Injection Container* by
+> runing the tests using the `testdox` option:
+>
+> ```
+> $ vendor/bin/phpunit -c tests/config/phpunit.xml --testdox
+> ```
+>
+> See the *[Code Together](#code-together)* section for more details.
 
 ## Install
 
@@ -36,32 +40,31 @@ $ composer require bauhaus/di:dev-master
 
 Did you find some problem or do you want to make this project better?
 
-1. Did you find some problem? You can easy open an issue
+1. Did you find some problem? You can easy open an issue here
    [here](https://github.com/bauhausphp/package-di/issues)
-2. Do you want to make this project better? Follow the next section to start
-   code together :)
+2. Do you want to help coding? Read the next section and let's code together :)
 
 ### Code Together
 
-To start coding in this project, you will need first to clone this repository:
+First you will need to clone this repository:
 
 ```
 $ git clone git@github.com:bauhausphp/package-di.git bauhausphp-package-di
 $ cd bauhausphp-package-di
 ```
 
-Second, you will need to get the dependencies which are already with the
-versions locked in the `composer.lock`. So, you just have to install them:
+Second, you have to install the dependencies which are already with the versions
+locked by the composer.lock. So, you just have to install them using
+[composer](https://getcomposer.org/):
 
 ```
 composer install
 ```
 
-Third, the tests! There are *unit* and *acceptance* tests that were implemented
-using [phpunit](https://phpunit.de/) and [behat](http://docs.behat.org/en/v3.0/)
-frameworks respectively and you can run them by runnig the following commands:
+Third, before starting code, you need to make sure that the tests pass. There
+are unit that were implemented using [phpunit](https://phpunit.de/) framework.
+To run them, use the following command:
 
 ```
-$ vendor/bin/phpunit -c tests/phpunit.xml
-$ vendor/bin/behat --config tests/behat.yml
+$ vendor/bin/phpunit -c tests/config/phpunit.xml
 ```
