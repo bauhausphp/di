@@ -11,7 +11,9 @@ class DependencyInjection extends Container
     {
         foreach ($services as $label => $item) {
             if (!$item instanceof DependencyInjectionItem) {
-                throw new \InvalidArgumentException("The item with label '$label' does not contain a DependencyInjectionItem");
+                throw new \InvalidArgumentException(
+                    "The item with label '$label' does not contain a DependencyInjectionItem"
+                );
             }
         }
 
