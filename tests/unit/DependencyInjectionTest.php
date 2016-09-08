@@ -158,7 +158,7 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionOccursWhenTryingToRegisterAServiceWithAnAlreadyTakenLabel()
     {
-        $diContainer = (new DependencyInjection())
+        (new DependencyInjection())
             ->withService('alreadTaken', function () {
                 return 'result';
             })
@@ -174,7 +174,7 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionOccursWhenTryingToCreateUsingArrayThatContainsValueThat()
     {
-        $diContainer = new DependencyInjection([
+        new DependencyInjection([
             'wrongItem' => 'notDependencyInjectionItem',
         ]);
     }
