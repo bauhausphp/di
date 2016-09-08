@@ -12,26 +12,26 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
      */
     public function whenAServiceIsRegisteredANewContainerIsReturnedWithTheServiceAdded()
     {
-        $oldDi = (new DependencyInjection())
+        $oldDiContainer = (new DependencyInjection())
             ->withService('service', function () {
                 return 'result of the service';
             });
 
-        $newDi = $oldDi->withService('newService', function () {
+        $newDiContainer = $oldDiContainer->withService('newService', function () {
             return 'result of the new service';
         });
 
         // assert that new container was created
-        $this->assertNotSame($oldDi, $newDi);
+        $this->assertNotSame($oldDiContainer, $newDiContainer);
 
         // assert that the new container contains the new service registered and
         // the old ones
-        $servicesOfTheOldDi = $oldDi->all();
-        $servicesOfTheNewDi = $newDi->all();
+        $servicesOfTheOldDiContainer = $oldDiContainer->all();
+        $servicesOfTheNewDiContainer = $newDiContainer->all();
 
-        $this->assertArrayHasKey('newService', $servicesOfTheNewDi);
-        unset($servicesOfTheNewDi['newService']);
-        $this->assertEquals($servicesOfTheOldDi, $servicesOfTheNewDi);
+        $this->assertArrayHasKey('newService', $servicesOfTheNewDiContainer);
+        unset($servicesOfTheNewDiContainer['newService']);
+        $this->assertEquals($servicesOfTheOldDiContainer, $servicesOfTheNewDiContainer);
     }
 
     /**
@@ -43,12 +43,12 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
     ) {
         $expectedResult = 'expected result';
 
-        $di = (new DependencyInjection())
+        $diContainer = (new DependencyInjection())
             ->withService('service', function () use ($expectedResult) {
                 return $expectedResult;
             }, $serviceType);
 
-        $this->assertEquals($expectedResult, $di->service);
+        $this->assertEquals($expectedResult, $diContainer->service);
     }
 
     public function availableServiceTypes()
@@ -68,7 +68,7 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
         $before = microtime(true);
         usleep(50);
 
-        $di = (new DependencyInjection())
+        $diContainer = (new DependencyInjection())
             ->withSharedService('service', function () {
                 $class = new \StdClass();
                 $class->during = microtime(true);
@@ -79,9 +79,9 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
         usleep(50);
         $after = microtime(true);
 
-        $firstEvaluation = $di->service;
-        $secondEvaluation = $di->service;
-        $thirdEvaluation = $di->service;
+        $firstEvaluation = $diContainer->service;
+        $secondEvaluation = $diContainer->service;
+        $thirdEvaluation = $diContainer->service;
 
         $this->assertSame($firstEvaluation, $secondEvaluation);
         $this->assertSame($firstEvaluation, $thirdEvaluation);
@@ -98,7 +98,7 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
         $before = microtime(true);
         usleep(50);
 
-        $di = (new DependencyInjection())
+        $diContainer = (new DependencyInjection())
             ->withLazyService('service', function () {
                 $class = new \StdClass();
                 $class->during = microtime(true);
@@ -109,9 +109,9 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
         usleep(50);
         $after = microtime(true);
 
-        $firstEvaluation = $di->service;
-        $secondEvaluation = $di->service;
-        $thirdEvaluation = $di->service;
+        $firstEvaluation = $diContainer->service;
+        $secondEvaluation = $diContainer->service;
+        $thirdEvaluation = $diContainer->service;
 
         $this->assertSame($firstEvaluation, $secondEvaluation);
         $this->assertSame($firstEvaluation, $thirdEvaluation);
@@ -125,14 +125,14 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
      */
     public function aNotSharedServiceEvaluatesItsAnonymousFunctionAlwaysWhenItIsCalled()
     {
-        $di = (new DependencyInjection())
+        $diContainer = (new DependencyInjection())
             ->withNotSharedService('service', function () {
                 return new \StdClass();
             });
 
-        $firstEvaluation = $di->service;
-        $secondEvaluation = $di->service;
-        $thirdEvaluation = $di->service;
+        $firstEvaluation = $diContainer->service;
+        $secondEvaluation = $diContainer->service;
+        $thirdEvaluation = $diContainer->service;
 
         $this->assertNotSame($firstEvaluation, $secondEvaluation);
         $this->assertNotSame($firstEvaluation, $thirdEvaluation);
@@ -146,9 +146,9 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionOccursWhenTryingToRetrieveAServiceWithNonExistingLabel()
     {
-        $di = new DependencyInjection();
+        $diContainer = new DependencyInjection();
 
-        $di->nonExisting;
+        $diContainer->nonExisting;
     }
 
     /**
@@ -158,7 +158,7 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionOccursWhenTryingToRegisterAServiceWithAnAlreadyTakenLabel()
     {
-        $di = (new DependencyInjection())
+        $diContainer = (new DependencyInjection())
             ->withService('alreadTaken', function () {
                 return 'result';
             })
@@ -174,7 +174,7 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionOccursWhenTryingToCreateUsingArrayThatContainsValueThat()
     {
-        $di = new DependencyInjection([
+        $diContainer = new DependencyInjection([
             'wrongItem' => 'notDependencyInjectionItem',
         ]);
     }
