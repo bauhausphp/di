@@ -26,12 +26,12 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
 
         // assert that the new container contains the new service registered and
         // the old ones
-        $servicesOfTheOldDiContainer = $oldDiContainer->all();
-        $servicesOfTheNewDiContainer = $newDiContainer->all();
+        $oldServices = $oldDiContainer->all();
+        $newServices = $newDiContainer->all();
 
-        $this->assertArrayHasKey('newService', $servicesOfTheNewDiContainer);
-        unset($servicesOfTheNewDiContainer['newService']);
-        $this->assertEquals($servicesOfTheOldDiContainer, $servicesOfTheNewDiContainer);
+        $this->assertArrayHasKey('newService', $newServices);
+        unset($newServices['newService']);
+        $this->assertEquals($oldServices, $newServices);
     }
 
     /**
