@@ -2,8 +2,6 @@
 
 namespace Bauhaus\DependencyInjection;
 
-use Bauhaus\DependencyInjection\FakeService;
-
 class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
