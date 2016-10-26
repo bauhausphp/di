@@ -25,7 +25,7 @@
 
    "require": {
       "php": ">=7.0",
-      "bauhaus/container": "dev-master"
+      "bauhaus/container": "^1.0"
    },
 
    "autoload": {
@@ -41,7 +41,6 @@
    "autoload-dev": {
       "psr-4": {
          "Bauhaus\\DependencyInjection\\": [
-            "tests/acceptance/",
             "tests/unit/",
             "tests/doubles/"
          ]

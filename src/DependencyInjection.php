@@ -20,10 +20,10 @@ class DependencyInjection extends Container
         parent::__construct($services);
     }
 
-    public function __get(string $label)
+    public function get($label)
     {
         try {
-            $item = parent::__get($label);
+            $item = parent::get($label);
         } catch (ContainerItemNotFoundException $e) {
             throw new DependencyInjectionServiceNotFoundException($label);
         }
