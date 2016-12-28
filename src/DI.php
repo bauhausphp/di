@@ -1,18 +1,18 @@
 <?php
 
-namespace Bauhaus\DependencyInjection;
+namespace Bauhaus\DI;
 
 use Bauhaus\Container\Container;
 use Bauhaus\Container\ContainerItemNotFoundException;
 
-class DependencyInjection extends Container
+class DI extends Container
 {
     public function __construct(array $services = [])
     {
         foreach ($services as $label => $item) {
-            if (!$item instanceof DependencyInjectionItem) {
+            if (!$item instanceof DIItem) {
                 throw new \InvalidArgumentException(
-                    "The item with label '$label' does not contain a DependencyInjectionItem"
+                    "The item with label '$label' does not contain a DIItem"
                 );
             }
         }
@@ -25,7 +25,7 @@ class DependencyInjection extends Container
         try {
             $item = parent::get($label);
         } catch (ContainerItemNotFoundException $e) {
-            throw new DependencyInjectionServiceNotFoundException($label);
+            throw new DIServiceNotFoundException($label);
         }
 
         return $item->value();
@@ -41,31 +41,31 @@ class DependencyInjection extends Container
         return $arr;
     }
 
-    public function withService(string $label, callable $service, $type = DependencyInjectionItem::SHARED): self
+    public function withService(string $label, callable $service, $type = DIItem::SHARED): self
     {
         if ($this->has($label)) {
-            throw new DependencyInjectionServiceAlreadyExistsException($label);
+            throw new DIServiceAlreadyExistsException($label);
         }
 
         $services = $this->items();
-        $services[$label] = new DependencyInjectionItem($service, $type);
+        $services[$label] = new DIItem($service, $type);
 
         return new self($services);
     }
 
     public function withSharedService(string $label, callable $service): self
     {
-        return $this->withService($label, $service, DependencyInjectionItem::SHARED);
+        return $this->withService($label, $service, DIItem::SHARED);
     }
 
     public function withLazyService(string $label, callable $service): self
     {
-        return $this->withService($label, $service, DependencyInjectionItem::LAZY);
+        return $this->withService($label, $service, DIItem::LAZY);
     }
 
     public function withNotSharedService(string $label, callable $service): self
     {
-        return $this->withService($label, $service, DependencyInjectionItem::NOT_SHARED);
+        return $this->withService($label, $service, DIItem::NOT_SHARED);
     }
 
     private function items(): array

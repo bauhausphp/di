@@ -1,16 +1,15 @@
 <?php
 
-namespace Bauhaus\DependencyInjection;
+namespace Bauhaus\DI;
 
-class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
+class DITest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @testdox When a service is registered, a new container is returned with the service added
      */
-    public function whenAServiceIsRegisteredANewContainerIsReturnedWithTheServiceAdded()
+    public function aNewContainerIsReturnedWhenANewServiceIsRegistered()
     {
-        $oldDiContainer = (new DependencyInjection())
+        $oldDiContainer = (new DI())
             ->withService('service', function () {
                 return 'result of the service';
             });
@@ -36,12 +35,12 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider availableServiceTypes
      */
-    public function theResultOfTheAnonymousFunctionUsedToRegisterAServiceIsReturnedWhenThisServiceIsCalled(
+    public function theResultOfTheAnonymousFunctionUsedToRegisterTheNewServiceIsReturnedWhenThisServiceIsCalled(
         string $serviceType
     ) {
         $expectedResult = 'expected result';
 
-        $diContainer = (new DependencyInjection())
+        $diContainer = (new DI())
             ->withService('service', function () use ($expectedResult) {
                 return $expectedResult;
             }, $serviceType);
@@ -52,9 +51,9 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
     public function availableServiceTypes()
     {
         return [
-            [DependencyInjectionItem::SHARED],
-            [DependencyInjectionItem::LAZY],
-            [DependencyInjectionItem::NOT_SHARED],
+            [DIItem::SHARED],
+            [DIItem::LAZY],
+            [DIItem::NOT_SHARED],
         ];
     }
 
@@ -66,7 +65,7 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
         $before = microtime(true);
         usleep(50);
 
-        $diContainer = (new DependencyInjection())
+        $diContainer = (new DI())
             ->withSharedService('service', function () {
                 $class = new \StdClass();
                 $class->during = microtime(true);
@@ -91,12 +90,12 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function aLazyServiceEvaluatesItsAnonymousFunctionOnlyOnceAndWhenItIsCalled()
+    public function aLazyServiceEvaluatesItsAnonymousFunctionOnlyOnceAndWhenItIsCalledTheFirstTime()
     {
         $before = microtime(true);
         usleep(50);
 
-        $diContainer = (new DependencyInjection())
+        $diContainer = (new DI())
             ->withLazyService('service', function () {
                 $class = new \StdClass();
                 $class->during = microtime(true);
@@ -121,9 +120,9 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function aNotSharedServiceEvaluatesItsAnonymousFunctionAlwaysWhenItIsCalled()
+    public function aNotSharedServiceEvaluatesItsAnonymousFunctionEveryTimeItIsCalled()
     {
-        $diContainer = (new DependencyInjection())
+        $diContainer = (new DI())
             ->withNotSharedService('service', function () {
                 return new \StdClass();
             });
@@ -139,24 +138,24 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException Bauhaus\DependencyInjection\DependencyInjectionServiceNotFoundException
+     * @expectedException Bauhaus\DI\DIServiceNotFoundException
      * @expectedExceptionMessage No service with label 'nonExisting' was found in this dependency injection container
      */
     public function exceptionOccursWhenTryingToRetrieveAServiceWithNonExistingLabel()
     {
-        $diContainer = new DependencyInjection();
+        $diContainer = new DI();
 
         $diContainer->nonExisting;
     }
 
     /**
      * @test
-     * @expectedException Bauhaus\DependencyInjection\DependencyInjectionServiceAlreadyExistsException
+     * @expectedException Bauhaus\DI\DIServiceAlreadyExistsException
      * @expectedExceptionMessage There is already a service registered with the label 'alreadTaken' in this dependency injection container
      */
     public function exceptionOccursWhenTryingToRegisterAServiceWithAnAlreadyTakenLabel()
     {
-        (new DependencyInjection())
+        (new DI())
             ->withService('alreadTaken', function () {
                 return 'result';
             })
@@ -168,12 +167,12 @@ class DependencyInjectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The item with label 'wrongItem' does not contain a DependencyInjectionItem
+     * @expectedExceptionMessage The item with label 'wrongItem' does not contain a DIItem
      */
     public function exceptionOccursWhenTryingToCreateUsingArrayThatContainsValueThat()
     {
-        new DependencyInjection([
-            'wrongItem' => 'notDependencyInjectionItem',
+        new DI([
+            'wrongItem' => 'notDIItem',
         ]);
     }
 }

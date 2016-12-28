@@ -1,10 +1,10 @@
 <?php
 
-namespace Bauhaus\DependencyInjection;
+namespace Bauhaus\DI;
 
 use Bauhaus\Container\ContainerItemException;
 
-class DependencyInjectionServiceAlreadyExistsException extends ContainerItemException
+class DIServiceAlreadyExistsException extends ContainerItemException
 {
     protected function messageTemplate(): string
     {

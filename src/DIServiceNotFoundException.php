@@ -1,10 +1,10 @@
 <?php
 
-namespace Bauhaus\DependencyInjection;
+namespace Bauhaus\DI;
 
 use Bauhaus\Container\ContainerItemException;
 
-class DependencyInjectionServiceNotFoundException extends ContainerItemException
+class DIServiceNotFoundException extends ContainerItemException
 {
     protected function messageTemplate(): string
     {
