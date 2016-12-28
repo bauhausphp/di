@@ -56,17 +56,14 @@ class DIItem
         return self::TYPE_NOT_SHARED == $this->type;
     }
 
-    public static function availableServiceTypes(): array
+    protected static function isServiceTypeInvalid(string $type): bool
     {
-        return [
+        $availableServiceTypes = [
             self::TYPE_SHARED,
             self::TYPE_LAZY,
             self::TYPE_NOT_SHARED,
         ];
-    }
 
-    protected static function isServiceTypeInvalid(string $type): bool
-    {
-        return false === array_search($type, self::availableServiceTypes());
+        return false === array_search($type, $availableServiceTypes);
     }
 }
