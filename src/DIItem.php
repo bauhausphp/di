@@ -4,9 +4,9 @@ namespace Bauhaus\DI;
 
 class DIItem
 {
-    const SHARED = 'shared';
-    const LAZY = 'lazy';
-    const NOT_SHARED = 'not shared';
+    const TYPE_SHARED = 'shared';
+    const TYPE_LAZY = 'lazy';
+    const TYPE_NOT_SHARED = 'not shared';
 
     private $type = null;
     private $valueNotEvaluated = null;
@@ -15,6 +15,12 @@ class DIItem
 
     public function __construct(callable $service, string $type)
     {
+        if (self::isServiceTypeInvalid($type)) {
+            throw new \InvalidArgumentException(
+                "The given type '$type' is invalid for creating a new DIItem"
+            );
+        }
+
         $this->type = $type;
         $this->valueNotEvaluated = $service;
 
@@ -42,11 +48,22 @@ class DIItem
 
     private function isShared(): bool
     {
-        return self::SHARED == $this->type;
+        return self::TYPE_SHARED == $this->type;
     }
 
     private function isNotShared(): bool
     {
-        return self::NOT_SHARED == $this->type;
+        return self::TYPE_NOT_SHARED == $this->type;
+    }
+
+    protected static function isServiceTypeInvalid(string $type): bool
+    {
+        $availableServiceTypes = [
+            self::TYPE_SHARED,
+            self::TYPE_LAZY,
+            self::TYPE_NOT_SHARED,
+        ];
+
+        return false === array_search($type, $availableServiceTypes);
     }
 }

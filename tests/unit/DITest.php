@@ -51,9 +51,9 @@ class DITest extends \PHPUnit_Framework_TestCase
     public function availableServiceTypes()
     {
         return [
-            [DIItem::SHARED],
-            [DIItem::LAZY],
-            [DIItem::NOT_SHARED],
+            [DIItem::TYPE_SHARED],
+            [DIItem::TYPE_LAZY],
+            [DIItem::TYPE_NOT_SHARED],
         ];
     }
 
