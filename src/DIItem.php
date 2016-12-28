@@ -15,6 +15,10 @@ class DIItem
 
     public function __construct(callable $service, string $type)
     {
+        if (self::TYPE_SHARED !== $type && self::TYPE_LAZY !== $type && self::TYPE_NOT_SHARED !== $type) {
+            throw new \InvalidArgumentException("The given type '$type' is invalid for creating a new DIItem");
+        }
+
         $this->type = $type;
         $this->valueNotEvaluated = $service;
 
