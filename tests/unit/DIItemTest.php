@@ -11,6 +11,8 @@ class DIItemTest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionOccursWhenAnInvalidTypeIsGivenForCreatingANewItem()
     {
-        new DIItem(function () { return true; }, 'wrongType');
+        new DIItem(function () {
+            return true;
+        }, 'wrongType');
     }
 }
