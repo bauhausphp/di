@@ -2,9 +2,9 @@
 
 namespace Bauhaus\DI;
 
-use Bauhaus\Container\ContainerItemException;
+use Bauhaus\Container\ContainerItemNotFoundException;
 
-class DIServiceNotFoundException extends ContainerItemException
+class DIServiceNotFoundException extends ContainerItemNotFoundException
 {
     protected function messageTemplate(): string
     {
