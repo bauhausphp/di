@@ -1,8 +1,8 @@
 <?php
 
-namespace Bauhaus\DependencyInjection;
+namespace Bauhaus\DI;
 
-class DependencyInjectionItem
+class DIItem
 {
     const SHARED = 'shared';
     const LAZY = 'lazy';
