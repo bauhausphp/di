@@ -41,7 +41,7 @@ class DI extends Container
         return $arr;
     }
 
-    public function withService(string $label, callable $service, $type = DIItem::SHARED): self
+    public function withService(string $label, callable $service, $type = DIItem::TYPE_SHARED): self
     {
         if ($this->has($label)) {
             throw new DIServiceAlreadyExistsException($label);
@@ -55,17 +55,17 @@ class DI extends Container
 
     public function withSharedService(string $label, callable $service): self
     {
-        return $this->withService($label, $service, DIItem::SHARED);
+        return $this->withService($label, $service, DIItem::TYPE_SHARED);
     }
 
     public function withLazyService(string $label, callable $service): self
     {
-        return $this->withService($label, $service, DIItem::LAZY);
+        return $this->withService($label, $service, DIItem::TYPE_LAZY);
     }
 
     public function withNotSharedService(string $label, callable $service): self
     {
-        return $this->withService($label, $service, DIItem::NOT_SHARED);
+        return $this->withService($label, $service, DIItem::TYPE_NOT_SHARED);
     }
 
     private function items(): array

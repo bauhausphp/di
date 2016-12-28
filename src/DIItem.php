@@ -4,9 +4,9 @@ namespace Bauhaus\DI;
 
 class DIItem
 {
-    const SHARED = 'shared';
-    const LAZY = 'lazy';
-    const NOT_SHARED = 'not shared';
+    const TYPE_SHARED = 'shared';
+    const TYPE_LAZY = 'lazy';
+    const TYPE_NOT_SHARED = 'not shared';
 
     private $type = null;
     private $valueNotEvaluated = null;
@@ -42,11 +42,11 @@ class DIItem
 
     private function isShared(): bool
     {
-        return self::SHARED == $this->type;
+        return self::TYPE_SHARED == $this->type;
     }
 
     private function isNotShared(): bool
     {
-        return self::NOT_SHARED == $this->type;
+        return self::TYPE_NOT_SHARED == $this->type;
     }
 }
