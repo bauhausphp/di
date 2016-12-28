@@ -15,8 +15,10 @@ class DIItem
 
     public function __construct(callable $service, string $type)
     {
-        if (self::TYPE_SHARED !== $type && self::TYPE_LAZY !== $type && self::TYPE_NOT_SHARED !== $type) {
-            throw new \InvalidArgumentException("The given type '$type' is invalid for creating a new DIItem");
+        if (self::isServiceTypeInvalid($type)) {
+            throw new \InvalidArgumentException(
+                "The given type '$type' is invalid for creating a new DIItem"
+            );
         }
 
         $this->type = $type;
@@ -52,5 +54,19 @@ class DIItem
     private function isNotShared(): bool
     {
         return self::TYPE_NOT_SHARED == $this->type;
+    }
+
+    public static function availableServiceTypes(): array
+    {
+        return [
+            self::TYPE_SHARED,
+            self::TYPE_LAZY,
+            self::TYPE_NOT_SHARED,
+        ];
+    }
+
+    protected static function isServiceTypeInvalid(string $type): bool
+    {
+        return false === array_search($type, self::availableServiceTypes());
     }
 }
