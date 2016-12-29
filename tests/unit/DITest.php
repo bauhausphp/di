@@ -23,14 +23,14 @@ class DITest extends \PHPUnit_Framework_TestCase
         };
 
         // act
-        $newDi = $diContainer->withService($newServiceName, $newService);
+        $newDiContainer = $diContainer->withService($newServiceName, $newService);
 
         // assert
         $services = $diContainer->items();
         $newServices = $newDiContainer->items();
 
         $this->assertNotSame($diContainer, $newDiContainer); // new container returned
-        $this->assertTrue($newDi->has($newServiceName)); // new service was registed
+        $this->assertTrue($newDiContainer->has($newServiceName)); // new service was registed
         unset($newServices[$newServiceName]);
         $this->assertEquals($services, $newServices); // new di is equal to the old one with the new service added
     }
