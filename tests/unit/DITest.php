@@ -13,7 +13,7 @@ class DITest extends \PHPUnit_Framework_TestCase
     public function aNewContainerIsReturnedWhenANewServiceIsRegistered()
     {
         // arrange
-        $di = (new DI())->withService('service', function () {
+        $diContainer = (new DI())->withService('service', function () {
             return 'service result';
         });
 
@@ -23,13 +23,13 @@ class DITest extends \PHPUnit_Framework_TestCase
         };
 
         // act
-        $newDi = $di->withService($newServiceName, $newService);
+        $newDi = $diContainer->withService($newServiceName, $newService);
 
         // assert
-        $services = $di->items();
-        $newServices = $newDi->items();
+        $services = $diContainer->items();
+        $newServices = $newDiContainer->items();
 
-        $this->assertNotSame($di, $newDi); // new container returned
+        $this->assertNotSame($diContainer, $newDiContainer); // new container returned
         $this->assertTrue($newDi->has($newServiceName)); // new service was registed
         unset($newServices[$newServiceName]);
         $this->assertEquals($services, $newServices); // new di is equal to the old one with the new service added
@@ -48,11 +48,11 @@ class DITest extends \PHPUnit_Framework_TestCase
         $service = function () use ($expectedResult) {
             return $expectedResult;
         };
-        $di = (new DI())->withService($serviceName, $service, $serviceType);
+        $diContainer = (new DI())->withService($serviceName, $service, $serviceType);
 
         // act
-        $resultUsingGetMethod = $di->get($serviceName);
-        $resultUsingMagicMethod = $di->$serviceName;
+        $resultUsingGetMethod = $diContainer->get($serviceName);
+        $resultUsingMagicMethod = $diContainer->$serviceName;
 
         // assert
         $this->assertEquals($expectedResult, $resultUsingGetMethod);
@@ -77,7 +77,7 @@ class DITest extends \PHPUnit_Framework_TestCase
         $before = microtime(true);
         usleep(100);
 
-        $di = (new DI())
+        $diContainer = (new DI())
             ->withSharedService('service', function () {
                 $class = new \StdClass();
                 $class->during = microtime(true);
@@ -90,9 +90,9 @@ class DITest extends \PHPUnit_Framework_TestCase
 
         // act
         usleep(100);
-        $firstCall = $di->service;
+        $firstCall = $diContainer->service;
         usleep(100);
-        $secondCall = $di->service;
+        $secondCall = $diContainer->service;
 
         // assert
         $this->assertSame($firstCall, $secondCall);
@@ -109,7 +109,7 @@ class DITest extends \PHPUnit_Framework_TestCase
         $before = microtime(true);
         usleep(100);
 
-        $di = (new DI())
+        $diContainer = (new DI())
             ->withLazyService('service', function () {
                 $class = new \StdClass();
                 $class->during = microtime(true);
@@ -122,9 +122,9 @@ class DITest extends \PHPUnit_Framework_TestCase
 
         // act
         usleep(100);
-        $firstCall = $di->service;
+        $firstCall = $diContainer->service;
         usleep(100);
-        $secondCall = $di->service;
+        $secondCall = $diContainer->service;
 
         // assert
         $this->assertSame($firstCall, $secondCall);
@@ -137,14 +137,14 @@ class DITest extends \PHPUnit_Framework_TestCase
      */
     public function aNotSharedServiceEvaluatesItsAnonymousFunctionEveryTimeItIsCalled()
     {
-        $di = (new DI())
+        $diContainer = (new DI())
             ->withNotSharedService('service', function () {
                 return new \StdClass();
             });
 
-        $firstCall = $di->service;
-        $secondCall = $di->service;
-        $thirdCall = $di->service;
+        $firstCall = $diContainer->service;
+        $secondCall = $diContainer->service;
+        $thirdCall = $diContainer->service;
 
         $this->assertNotSame($firstCall, $secondCall);
         $this->assertNotSame($firstCall, $thirdCall);
@@ -161,7 +161,7 @@ class DITest extends \PHPUnit_Framework_TestCase
             'service2' => 'value2',
         ];
 
-        $di = (new DI())
+        $diContainer = (new DI())
             ->withService('service1', function () {
                 return 'value1';
             })
@@ -169,7 +169,7 @@ class DITest extends \PHPUnit_Framework_TestCase
                 return 'value2';
             });
 
-        $this->assertEquals($expectedResult, $di->toArray());
+        $this->assertEquals($expectedResult, $diContainer->toArray());
     }
 
     /**
@@ -179,9 +179,9 @@ class DITest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionOccursWhenTryingToRetrieveAServiceWithNonExistingLabel()
     {
-        $di = new DI();
+        $diContainer = new DI();
 
-        $di->nonExisting;
+        $diContainer->nonExisting;
     }
 
     /**
