@@ -25,8 +25,8 @@ class DITest extends \PHPUnit_Framework_TestCase
         $newDi = $di->withService($newServiceName, $newService);
 
         // assert
-        $services = $di->all();
-        $newServices = $newDi->all();
+        $services = $di->items();
+        $newServices = $newDi->items();
 
         $this->assertNotSame($di, $newDi); // new container returned
         $this->assertTrue($newDi->has($newServiceName)); // new service was registed
@@ -148,6 +148,27 @@ class DITest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame($firstCall, $secondCall);
         $this->assertNotSame($firstCall, $thirdCall);
         $this->assertNotSame($secondCall, $thirdCall);
+    }
+
+    /**
+     * @test
+     */
+    public function retrieveAllServicesValuesWhenConvertingToArray()
+    {
+        $expectedResult = [
+            'service1' => 'value1',
+            'service2' => 'value2',
+        ];
+
+        $di = (new DI())
+            ->withService('service1', function () {
+                return 'value1';
+            })
+            ->withService('service2', function () {
+                return 'value2';
+            });
+
+        $this->assertEquals($expectedResult, $di->toArray());
     }
 
     /**

@@ -3,7 +3,9 @@
 namespace Bauhaus;
 
 use Bauhaus\Container;
+use Bauhaus\Container\Factory as ContainerFactory;
 use Bauhaus\Container\ItemNotFoundException;
+use Bauhaus\Container\ItemAlreadyExistsException;
 use Bauhaus\DI\Service;
 use Bauhaus\DI\ServiceNotFoundException;
 use Bauhaus\DI\ServiceAlreadyExistsException;
@@ -34,7 +36,7 @@ class DI extends Container
         return $service->value();
     }
 
-    public function all(): array
+    public function toArray(): array
     {
         $arr = [];
         foreach ($this->items() as $name => $service) {
@@ -44,16 +46,16 @@ class DI extends Container
         return $arr;
     }
 
-    public function withService(string $name, callable $service, $type = Service::TYPE_SHARED): self
+    public function withService(string $name, callable $callable, $type = Service::TYPE_SHARED): self
     {
-        if ($this->has($name)) {
+        $containerFactory = new ContainerFactory();
+        $newService = new Service($callable, $type);
+
+        try {
+            return $containerFactory->containerWithItemAdded($this, $name, $newService);
+        } catch (ItemAlreadyExistsException $e) {
             throw new ServiceAlreadyExistsException($name);
         }
-
-        $services = $this->items();
-        $services[$name] = new Service($service, $type);
-
-        return new self($services);
     }
 
     public function withSharedService(string $name, callable $service): self
@@ -69,10 +71,5 @@ class DI extends Container
     public function withNotSharedService(string $name, callable $service): self
     {
         return $this->withService($name, $service, Service::TYPE_NOT_SHARED);
-    }
-
-    private function items(): array
-    {
-        return parent::all();
     }
 }
