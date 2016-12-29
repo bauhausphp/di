@@ -4,7 +4,7 @@ namespace Bauhaus\DI;
 
 use Bauhaus\Container\ItemNotFoundException;
 
-class DIServiceNotFoundException extends ItemNotFoundException
+class ServiceNotFoundException extends ItemNotFoundException
 {
     protected function message(): string
     {

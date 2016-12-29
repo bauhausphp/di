@@ -30,7 +30,7 @@
 
    "autoload": {
       "psr-4": {
-         "Bauhaus\\DI\\": "src/"
+         "Bauhaus\\": "src/"
       }
    },
 
@@ -40,7 +40,7 @@
 
    "autoload-dev": {
       "psr-4": {
-         "Bauhaus\\DI\\": [
+         "Bauhaus\\": [
             "tests/unit/"
          ]
       }

@@ -2,7 +2,7 @@
 
 namespace Bauhaus\DI;
 
-class DIItemTest extends \PHPUnit_Framework_TestCase
+class ServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -11,7 +11,7 @@ class DIItemTest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionOccursWhenAnInvalidTypeIsGivenForCreatingANewItem()
     {
-        new DIItem(function () {
+        new Service(function () {
             return true;
         }, 'wrongType');
     }

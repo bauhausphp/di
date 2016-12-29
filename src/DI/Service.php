@@ -2,7 +2,7 @@
 
 namespace Bauhaus\DI;
 
-class DIItem
+class Service
 {
     const TYPE_SHARED = 'shared';
     const TYPE_LAZY = 'lazy';

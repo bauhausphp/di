@@ -1,6 +1,8 @@
 <?php
 
-namespace Bauhaus\DI;
+namespace Bauhaus;
+
+use Bauhaus\DI\Service;
 
 class DITest extends \PHPUnit_Framework_TestCase
 {
@@ -51,9 +53,9 @@ class DITest extends \PHPUnit_Framework_TestCase
     public function availableServiceTypes()
     {
         return [
-            [DIItem::TYPE_SHARED],
-            [DIItem::TYPE_LAZY],
-            [DIItem::TYPE_NOT_SHARED],
+            [Service::TYPE_SHARED],
+            [Service::TYPE_LAZY],
+            [Service::TYPE_NOT_SHARED],
         ];
     }
 
@@ -138,7 +140,7 @@ class DITest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException Bauhaus\DI\DIServiceNotFoundException
+     * @expectedException Bauhaus\DI\ServiceNotFoundException
      * @expectedExceptionMessage No service with label 'nonExisting' was found in this dependency injection container
      */
     public function exceptionOccursWhenTryingToRetrieveAServiceWithNonExistingLabel()
@@ -150,7 +152,7 @@ class DITest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException Bauhaus\DI\DIServiceAlreadyExistsException
+     * @expectedException Bauhaus\DI\ServiceAlreadyExistsException
      * @expectedExceptionMessage There is already a service registered with the label 'alreadTaken' in this dependency injection container
      */
     public function exceptionOccursWhenTryingToRegisterAServiceWithAnAlreadyTakenLabel()

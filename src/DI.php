@@ -1,16 +1,19 @@
 <?php
 
-namespace Bauhaus\DI;
+namespace Bauhaus;
 
 use Bauhaus\Container;
 use Bauhaus\Container\ItemNotFoundException;
+use Bauhaus\DI\Service;
+use Bauhaus\DI\ServiceNotFoundException;
+use Bauhaus\DI\ServiceAlreadyExistsException;
 
 class DI extends Container
 {
     public function __construct(array $services = [])
     {
         foreach ($services as $label => $item) {
-            if (!$item instanceof DIItem) {
+            if (!$item instanceof Service) {
                 throw new \InvalidArgumentException(
                     "The item with label '$label' does not contain a DIItem"
                 );
@@ -25,7 +28,7 @@ class DI extends Container
         try {
             $item = parent::get($label);
         } catch (ItemNotFoundException $e) {
-            throw new DIServiceNotFoundException($label);
+            throw new ServiceNotFoundException($label);
         }
 
         return $item->value();
@@ -41,31 +44,31 @@ class DI extends Container
         return $arr;
     }
 
-    public function withService(string $label, callable $service, $type = DIItem::TYPE_SHARED): self
+    public function withService(string $label, callable $service, $type = Service::TYPE_SHARED): self
     {
         if ($this->has($label)) {
-            throw new DIServiceAlreadyExistsException($label);
+            throw new ServiceAlreadyExistsException($label);
         }
 
         $services = $this->items();
-        $services[$label] = new DIItem($service, $type);
+        $services[$label] = new Service($service, $type);
 
         return new self($services);
     }
 
     public function withSharedService(string $label, callable $service): self
     {
-        return $this->withService($label, $service, DIItem::TYPE_SHARED);
+        return $this->withService($label, $service, Service::TYPE_SHARED);
     }
 
     public function withLazyService(string $label, callable $service): self
     {
-        return $this->withService($label, $service, DIItem::TYPE_LAZY);
+        return $this->withService($label, $service, Service::TYPE_LAZY);
     }
 
     public function withNotSharedService(string $label, callable $service): self
     {
-        return $this->withService($label, $service, DIItem::TYPE_NOT_SHARED);
+        return $this->withService($label, $service, Service::TYPE_NOT_SHARED);
     }
 
     private function items(): array
