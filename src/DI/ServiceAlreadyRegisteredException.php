@@ -4,7 +4,7 @@ namespace Bauhaus\DI;
 
 use Bauhaus\Container\ItemException;
 
-class ServiceAlreadyExistsException extends ItemException
+class ServiceAlreadyRegisteredException extends ItemException
 {
     protected function message(): string
     {

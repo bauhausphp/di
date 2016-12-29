@@ -186,7 +186,7 @@ class DITest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException Bauhaus\DI\ServiceAlreadyExistsException
+     * @expectedException Bauhaus\DI\ServiceAlreadyRegisteredException
      * @expectedExceptionMessage There is already a service registered with the name 'alreadTaken'
      */
     public function exceptionOccursWhenTryingToRegisterAServiceWithAnAlreadyTakenLabel()

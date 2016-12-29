@@ -9,7 +9,7 @@ use Bauhaus\Container\ItemAlreadyExistsException;
 use Bauhaus\DI\Service;
 use Bauhaus\DI\ServiceType;
 use Bauhaus\DI\ServiceNotFoundException;
-use Bauhaus\DI\ServiceAlreadyExistsException;
+use Bauhaus\DI\ServiceAlreadyRegisteredException;
 
 class DI extends Container
 {
@@ -55,7 +55,7 @@ class DI extends Container
         try {
             return $containerFactory->containerWithItemAdded($this, $name, $newService);
         } catch (ItemAlreadyExistsException $e) {
-            throw new ServiceAlreadyExistsException($name);
+            throw new ServiceAlreadyRegisteredException($name);
         }
     }
 
