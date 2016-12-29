@@ -8,6 +8,6 @@ class ServiceAlreadyExistsException extends ItemException
 {
     protected function message(): string
     {
-        return "There is already a service registered with the label '{$this->label()}' in this dependency injection container";
+        return "There is already a service registered with the name '{$this->label()}'";
     }
 }

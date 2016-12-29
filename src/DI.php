@@ -15,7 +15,7 @@ class DI extends Container
         foreach ($services as $label => $item) {
             if (!$item instanceof Service) {
                 throw new \InvalidArgumentException(
-                    "The item with label '$label' does not contain a DIItem"
+                    "The service '$label' is not an instance of Bauhaus\DI\Service"
                 );
             }
         }

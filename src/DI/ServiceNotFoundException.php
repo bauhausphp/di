@@ -8,6 +8,6 @@ class ServiceNotFoundException extends ItemNotFoundException
 {
     protected function message(): string
     {
-        return "No service with label '{$this->label()}' was found in this dependency injection container";
+        return "No service found with name '{$this->label()}'";
     }
 }

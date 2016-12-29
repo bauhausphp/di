@@ -17,7 +17,7 @@ class Service
     {
         if (self::isServiceTypeInvalid($type)) {
             throw new \InvalidArgumentException(
-                "The given type '$type' is invalid for creating a new DIItem"
+                "The given type '$type' is invalid to a DI service"
             );
         }
 

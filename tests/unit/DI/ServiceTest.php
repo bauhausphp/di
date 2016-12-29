@@ -7,12 +7,15 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The given type 'wrongType' is invalid for creating a new DIItem
+     * @expectedExceptionMessage The given type 'wrongType' is invalid to a DI service
      */
     public function exceptionOccursWhenAnInvalidTypeIsGivenForCreatingANewItem()
     {
-        new Service(function () {
+        $serviceFunction = function () {
             return true;
-        }, 'wrongType');
+        };
+        $serviceType = 'wrongType';
+
+        new Service($serviceFunction, $serviceType);
     }
 }
