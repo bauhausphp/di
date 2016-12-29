@@ -2,12 +2,12 @@
 
 namespace Bauhaus\DI;
 
-use Bauhaus\Container\ContainerItemException;
+use Bauhaus\Container\ItemException;
 
-class DIServiceAlreadyExistsException extends ContainerItemException
+class DIServiceAlreadyExistsException extends ItemException
 {
-    protected function messageTemplate(): string
+    protected function message(): string
     {
-        return 'There is already a service registered with the label \'%s\' in this dependency injection container';
+        return "There is already a service registered with the label '{$this->label()}' in this dependency injection container";
     }
 }

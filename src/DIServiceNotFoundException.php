@@ -2,12 +2,12 @@
 
 namespace Bauhaus\DI;
 
-use Bauhaus\Container\ContainerItemNotFoundException;
+use Bauhaus\Container\ItemNotFoundException;
 
-class DIServiceNotFoundException extends ContainerItemNotFoundException
+class DIServiceNotFoundException extends ItemNotFoundException
 {
-    protected function messageTemplate(): string
+    protected function message(): string
     {
-        return 'No service with label \'%s\' was found in this dependency injection container';
+        return "No service with label '{$this->label()}' was found in this dependency injection container";
     }
 }

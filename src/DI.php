@@ -2,8 +2,8 @@
 
 namespace Bauhaus\DI;
 
-use Bauhaus\Container\Container;
-use Bauhaus\Container\ContainerItemNotFoundException;
+use Bauhaus\Container;
+use Bauhaus\Container\ItemNotFoundException;
 
 class DI extends Container
 {
@@ -24,7 +24,7 @@ class DI extends Container
     {
         try {
             $item = parent::get($label);
-        } catch (ContainerItemNotFoundException $e) {
+        } catch (ItemNotFoundException $e) {
             throw new DIServiceNotFoundException($label);
         }
 
