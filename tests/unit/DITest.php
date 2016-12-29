@@ -3,6 +3,7 @@
 namespace Bauhaus;
 
 use Bauhaus\DI\Service;
+use Bauhaus\DI\ServiceType;
 
 class DITest extends \PHPUnit_Framework_TestCase
 {
@@ -61,9 +62,9 @@ class DITest extends \PHPUnit_Framework_TestCase
     public function availableServiceTypes()
     {
         return [
-            [Service::TYPE_SHARED],
-            [Service::TYPE_LAZY],
-            [Service::TYPE_NOT_SHARED],
+            [ServiceType::SHARED],
+            [ServiceType::LAZY],
+            [ServiceType::NOT_SHARED],
         ];
     }
 

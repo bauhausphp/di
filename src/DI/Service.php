@@ -4,10 +4,6 @@ namespace Bauhaus\DI;
 
 class Service
 {
-    const TYPE_SHARED = 'shared';
-    const TYPE_LAZY = 'lazy';
-    const TYPE_NOT_SHARED = 'not shared';
-
     private $type = null;
     private $valueNotEvaluated = null;
     private $valueWasEvaluated = false;
@@ -48,20 +44,20 @@ class Service
 
     private function isShared(): bool
     {
-        return self::TYPE_SHARED == $this->type;
+        return ServiceType::SHARED == $this->type;
     }
 
     private function isNotShared(): bool
     {
-        return self::TYPE_NOT_SHARED == $this->type;
+        return ServiceType::NOT_SHARED == $this->type;
     }
 
     protected static function isServiceTypeInvalid(string $type): bool
     {
         $availableServiceTypes = [
-            self::TYPE_SHARED,
-            self::TYPE_LAZY,
-            self::TYPE_NOT_SHARED,
+            ServiceType::SHARED,
+            ServiceType::LAZY,
+            ServiceType::NOT_SHARED,
         ];
 
         return false === array_search($type, $availableServiceTypes);

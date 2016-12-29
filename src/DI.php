@@ -7,6 +7,7 @@ use Bauhaus\Container\Factory as ContainerFactory;
 use Bauhaus\Container\ItemNotFoundException;
 use Bauhaus\Container\ItemAlreadyExistsException;
 use Bauhaus\DI\Service;
+use Bauhaus\DI\ServiceType;
 use Bauhaus\DI\ServiceNotFoundException;
 use Bauhaus\DI\ServiceAlreadyExistsException;
 
@@ -46,7 +47,7 @@ class DI extends Container
         return $arr;
     }
 
-    public function withService(string $name, callable $callable, $type = Service::TYPE_SHARED): self
+    public function withService(string $name, callable $callable, $type = ServiceType::SHARED): self
     {
         $containerFactory = new ContainerFactory();
         $newService = new Service($callable, $type);
@@ -60,17 +61,17 @@ class DI extends Container
 
     public function withSharedService(string $name, callable $service): self
     {
-        return $this->withService($name, $service, Service::TYPE_SHARED);
+        return $this->withService($name, $service, ServiceType::SHARED);
     }
 
     public function withLazyService(string $name, callable $service): self
     {
-        return $this->withService($name, $service, Service::TYPE_LAZY);
+        return $this->withService($name, $service, ServiceType::LAZY);
     }
 
     public function withNotSharedService(string $name, callable $service): self
     {
-        return $this->withService($name, $service, Service::TYPE_NOT_SHARED);
+        return $this->withService($name, $service, ServiceType::NOT_SHARED);
     }
 
     private function isInstanceOfService($service): bool
