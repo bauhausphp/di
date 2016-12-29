@@ -1,18 +1,24 @@
 <?php
 
-namespace Bauhaus\DI;
+namespace Bauhaus;
 
-use Bauhaus\Container\Container;
-use Bauhaus\Container\ContainerItemNotFoundException;
+use Bauhaus\Container;
+use Bauhaus\Container\Factory as ContainerFactory;
+use Bauhaus\Container\ItemNotFoundException;
+use Bauhaus\Container\ItemAlreadyExistsException;
+use Bauhaus\DI\Service;
+use Bauhaus\DI\ServiceType;
+use Bauhaus\DI\ServiceNotFoundException;
+use Bauhaus\DI\ServiceAlreadyRegisteredException;
 
 class DI extends Container
 {
     public function __construct(array $services = [])
     {
-        foreach ($services as $label => $item) {
-            if (!$item instanceof DIItem) {
+        foreach ($services as $name => $service) {
+            if (false === $this->isInstanceOfService($service)) {
                 throw new \InvalidArgumentException(
-                    "The item with label '$label' does not contain a DIItem"
+                    "The service '$name' is not an instance of Bauhaus\DI\Service"
                 );
             }
         }
@@ -20,56 +26,56 @@ class DI extends Container
         parent::__construct($services);
     }
 
-    public function get($label)
+    public function get($name)
     {
         try {
-            $item = parent::get($label);
-        } catch (ContainerItemNotFoundException $e) {
-            throw new DIServiceNotFoundException($label);
+            $service = parent::get($name);
+        } catch (ItemNotFoundException $e) {
+            throw new ServiceNotFoundException($name);
         }
 
-        return $item->value();
+        return $service->value();
     }
 
-    public function all(): array
+    public function toArray(): array
     {
         $arr = [];
-        foreach ($this->items() as $label => $item) {
-            $arr[$label] = $item->value();
+        foreach ($this->items() as $name => $service) {
+            $arr[$name] = $service->value();
         }
 
         return $arr;
     }
 
-    public function withService(string $label, callable $service, $type = DIItem::TYPE_SHARED): self
+    public function withService(string $name, callable $callable, $type = ServiceType::SHARED): self
     {
-        if ($this->has($label)) {
-            throw new DIServiceAlreadyExistsException($label);
+        $containerFactory = new ContainerFactory();
+        $newService = new Service($callable, $type);
+
+        try {
+            return $containerFactory->containerWithItemAdded($this, $name, $newService);
+        } catch (ItemAlreadyExistsException $e) {
+            throw new ServiceAlreadyRegisteredException($name);
         }
-
-        $services = $this->items();
-        $services[$label] = new DIItem($service, $type);
-
-        return new self($services);
     }
 
-    public function withSharedService(string $label, callable $service): self
+    public function withSharedService(string $name, callable $service): self
     {
-        return $this->withService($label, $service, DIItem::TYPE_SHARED);
+        return $this->withService($name, $service, ServiceType::SHARED);
     }
 
-    public function withLazyService(string $label, callable $service): self
+    public function withLazyService(string $name, callable $service): self
     {
-        return $this->withService($label, $service, DIItem::TYPE_LAZY);
+        return $this->withService($name, $service, ServiceType::LAZY);
     }
 
-    public function withNotSharedService(string $label, callable $service): self
+    public function withNotSharedService(string $name, callable $service): self
     {
-        return $this->withService($label, $service, DIItem::TYPE_NOT_SHARED);
+        return $this->withService($name, $service, ServiceType::NOT_SHARED);
     }
 
-    private function items(): array
+    private function isInstanceOfService($service): bool
     {
-        return parent::all();
+        return $service instanceof Service;
     }
 }

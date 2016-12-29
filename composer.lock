@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "bauhaus/container",
-            "version": "v1.0.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bauhausphp/container.git",
-                "reference": "4a5893e50017ba5614800d1a4747e5b6751e5fb6"
+                "reference": "d359e22c5eea901f2de4eb29b6a68b213b22dd46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bauhausphp/container/zipball/4a5893e50017ba5614800d1a4747e5b6751e5fb6",
-                "reference": "4a5893e50017ba5614800d1a4747e5b6751e5fb6",
+                "url": "https://api.github.com/repos/bauhausphp/container/zipball/d359e22c5eea901f2de4eb29b6a68b213b22dd46",
+                "reference": "d359e22c5eea901f2de4eb29b6a68b213b22dd46",
                 "shasum": ""
             },
             "require": {
@@ -30,7 +30,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Bauhaus\\Container\\": "src/"
+                    "Bauhaus\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -48,7 +48,7 @@
                 "bauhaus",
                 "container"
             ],
-            "time": "2016-12-27T22:42:09+00:00"
+            "time": "2016-12-29T06:59:40+00:00"
         },
         {
             "name": "container-interop/container-interop",

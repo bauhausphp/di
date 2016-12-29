@@ -1,6 +1,9 @@
 <?php
 
-namespace Bauhaus\DI;
+namespace Bauhaus;
+
+use Bauhaus\DI\Service;
+use Bauhaus\DI\ServiceType;
 
 class DITest extends \PHPUnit_Framework_TestCase
 {
@@ -9,26 +12,27 @@ class DITest extends \PHPUnit_Framework_TestCase
      */
     public function aNewContainerIsReturnedWhenANewServiceIsRegistered()
     {
-        $oldDiContainer = (new DI())
-            ->withService('service', function () {
-                return 'result of the service';
-            });
-
-        $newDiContainer = $oldDiContainer->withService('newService', function () {
-            return 'result of the new service';
+        // arrange
+        $diContainer = (new DI())->withService('service', function () {
+            return 'service result';
         });
 
-        // assert that new container was created
-        $this->assertNotSame($oldDiContainer, $newDiContainer);
+        $newServiceName = 'newService';
+        $newService = function () {
+            return 'result of the new service';
+        };
 
-        // assert that the new container contains the new service registered and
-        // the old ones
-        $oldServices = $oldDiContainer->all();
-        $newServices = $newDiContainer->all();
+        // act
+        $newDiContainer = $diContainer->withService($newServiceName, $newService);
 
-        $this->assertArrayHasKey('newService', $newServices);
-        unset($newServices['newService']);
-        $this->assertEquals($oldServices, $newServices);
+        // assert
+        $services = $diContainer->items();
+        $newServices = $newDiContainer->items();
+
+        $this->assertNotSame($diContainer, $newDiContainer); // new container returned
+        $this->assertTrue($newDiContainer->has($newServiceName)); // new service was registed
+        unset($newServices[$newServiceName]);
+        $this->assertEquals($services, $newServices); // new di is equal to the old one with the new service added
     }
 
     /**
@@ -38,22 +42,29 @@ class DITest extends \PHPUnit_Framework_TestCase
     public function theResultOfTheAnonymousFunctionUsedToRegisterTheNewServiceIsReturnedWhenThisServiceIsCalled(
         string $serviceType
     ) {
-        $expectedResult = 'expected result';
+        // arrange
+        $serviceName = 'service';
+        $expectedResult = "result: $serviceType";
+        $service = function () use ($expectedResult) {
+            return $expectedResult;
+        };
+        $diContainer = (new DI())->withService($serviceName, $service, $serviceType);
 
-        $diContainer = (new DI())
-            ->withService('service', function () use ($expectedResult) {
-                return $expectedResult;
-            }, $serviceType);
+        // act
+        $resultOfGet = $diContainer->get($serviceName);
+        $resultOfMagicGet = $diContainer->$serviceName;
 
-        $this->assertEquals($expectedResult, $diContainer->service);
+        // assert
+        $this->assertEquals($expectedResult, $resultOfGet);
+        $this->assertEquals($expectedResult, $resultOfMagicGet);
     }
 
     public function availableServiceTypes()
     {
         return [
-            [DIItem::TYPE_SHARED],
-            [DIItem::TYPE_LAZY],
-            [DIItem::TYPE_NOT_SHARED],
+            [ServiceType::SHARED],
+            [ServiceType::LAZY],
+            [ServiceType::NOT_SHARED],
         ];
     }
 
@@ -62,8 +73,9 @@ class DITest extends \PHPUnit_Framework_TestCase
      */
     public function aSharedServiceEvaluatesItsAnonymousFunctionOnlyOnceAndWhenItIsRegistered()
     {
+        // arrange
         $before = microtime(true);
-        usleep(50);
+        usleep(100);
 
         $diContainer = (new DI())
             ->withSharedService('service', function () {
@@ -73,18 +85,19 @@ class DITest extends \PHPUnit_Framework_TestCase
                 return $class;
             });
 
-        usleep(50);
+        usleep(100);
         $after = microtime(true);
 
-        $firstEvaluation = $diContainer->service;
-        $secondEvaluation = $diContainer->service;
-        $thirdEvaluation = $diContainer->service;
+        // act
+        usleep(100);
+        $firstCall = $diContainer->service;
+        usleep(100);
+        $secondCall = $diContainer->service;
 
-        $this->assertSame($firstEvaluation, $secondEvaluation);
-        $this->assertSame($firstEvaluation, $thirdEvaluation);
-
-        $this->assertGreaterThan($before, $firstEvaluation->during);
-        $this->assertGreaterThan($firstEvaluation->during, $after);
+        // assert
+        $this->assertSame($firstCall, $secondCall);
+        $this->assertTrue($before < $firstCall->during);
+        $this->assertTrue($after > $firstCall->during);
     }
 
     /**
@@ -92,8 +105,9 @@ class DITest extends \PHPUnit_Framework_TestCase
      */
     public function aLazyServiceEvaluatesItsAnonymousFunctionOnlyOnceAndWhenItIsCalledTheFirstTime()
     {
+        // arrange
         $before = microtime(true);
-        usleep(50);
+        usleep(100);
 
         $diContainer = (new DI())
             ->withLazyService('service', function () {
@@ -103,18 +117,19 @@ class DITest extends \PHPUnit_Framework_TestCase
                 return $class;
             });
 
-        usleep(50);
+        usleep(100);
         $after = microtime(true);
 
-        $firstEvaluation = $diContainer->service;
-        $secondEvaluation = $diContainer->service;
-        $thirdEvaluation = $diContainer->service;
+        // act
+        usleep(100);
+        $firstCall = $diContainer->service;
+        usleep(100);
+        $secondCall = $diContainer->service;
 
-        $this->assertSame($firstEvaluation, $secondEvaluation);
-        $this->assertSame($firstEvaluation, $thirdEvaluation);
-
-        $this->assertGreaterThan($before, $firstEvaluation->during);
-        $this->assertGreaterThan($after, $firstEvaluation->during);
+        // assert
+        $this->assertSame($firstCall, $secondCall);
+        $this->assertTrue($before < $firstCall->during);
+        $this->assertTrue($after < $firstCall->during);
     }
 
     /**
@@ -127,19 +142,40 @@ class DITest extends \PHPUnit_Framework_TestCase
                 return new \StdClass();
             });
 
-        $firstEvaluation = $diContainer->service;
-        $secondEvaluation = $diContainer->service;
-        $thirdEvaluation = $diContainer->service;
+        $firstCall = $diContainer->service;
+        $secondCall = $diContainer->service;
+        $thirdCall = $diContainer->service;
 
-        $this->assertNotSame($firstEvaluation, $secondEvaluation);
-        $this->assertNotSame($firstEvaluation, $thirdEvaluation);
-        $this->assertNotSame($secondEvaluation, $thirdEvaluation);
+        $this->assertNotSame($firstCall, $secondCall);
+        $this->assertNotSame($firstCall, $thirdCall);
+        $this->assertNotSame($secondCall, $thirdCall);
     }
 
     /**
      * @test
-     * @expectedException Bauhaus\DI\DIServiceNotFoundException
-     * @expectedExceptionMessage No service with label 'nonExisting' was found in this dependency injection container
+     */
+    public function retrieveAllServicesValuesWhenConvertingToArray()
+    {
+        $expectedResult = [
+            'service1' => 'value1',
+            'service2' => 'value2',
+        ];
+
+        $diContainer = (new DI())
+            ->withService('service1', function () {
+                return 'value1';
+            })
+            ->withService('service2', function () {
+                return 'value2';
+            });
+
+        $this->assertEquals($expectedResult, $diContainer->toArray());
+    }
+
+    /**
+     * @test
+     * @expectedException Bauhaus\DI\ServiceNotFoundException
+     * @expectedExceptionMessage No service found with name 'nonExisting'
      */
     public function exceptionOccursWhenTryingToRetrieveAServiceWithNonExistingLabel()
     {
@@ -150,8 +186,8 @@ class DITest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException Bauhaus\DI\DIServiceAlreadyExistsException
-     * @expectedExceptionMessage There is already a service registered with the label 'alreadTaken' in this dependency injection container
+     * @expectedException Bauhaus\DI\ServiceAlreadyRegisteredException
+     * @expectedExceptionMessage There is already a service registered with the name 'alreadTaken'
      */
     public function exceptionOccursWhenTryingToRegisterAServiceWithAnAlreadyTakenLabel()
     {
@@ -167,7 +203,7 @@ class DITest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The item with label 'wrongItem' does not contain a DIItem
+     * @expectedExceptionMessage The service 'wrongItem' is not an instance of Bauhaus\DI\Service
      */
     public function exceptionOccursWhenTryingToCreateUsingArrayThatContainsValueThat()
     {
