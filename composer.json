@@ -41,8 +41,7 @@
    "autoload-dev": {
       "psr-4": {
          "Bauhaus\\DI\\": [
-            "tests/unit/",
-            "tests/doubles/"
+            "tests/unit/"
          ]
       }
    }
