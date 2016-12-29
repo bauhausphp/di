@@ -51,12 +51,12 @@ class DITest extends \PHPUnit_Framework_TestCase
         $diContainer = (new DI())->withService($serviceName, $service, $serviceType);
 
         // act
-        $resultUsingGetMethod = $diContainer->get($serviceName);
-        $resultUsingMagicMethod = $diContainer->$serviceName;
+        $resultOfGet = $diContainer->get($serviceName);
+        $resultOfMagicGet = $diContainer->$serviceName;
 
         // assert
-        $this->assertEquals($expectedResult, $resultUsingGetMethod);
-        $this->assertEquals($expectedResult, $resultUsingMagicMethod);
+        $this->assertEquals($expectedResult, $resultOfGet);
+        $this->assertEquals($expectedResult, $resultOfMagicGet);
     }
 
     public function availableServiceTypes()
