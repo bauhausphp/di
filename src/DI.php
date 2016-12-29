@@ -15,7 +15,7 @@ class DI extends Container
     public function __construct(array $services = [])
     {
         foreach ($services as $name => $service) {
-            if (!$service instanceof Service) {
+            if (false === $this->isInstanceOfService($service)) {
                 throw new \InvalidArgumentException(
                     "The service '$name' is not an instance of Bauhaus\DI\Service"
                 );
@@ -71,5 +71,10 @@ class DI extends Container
     public function withNotSharedService(string $name, callable $service): self
     {
         return $this->withService($name, $service, Service::TYPE_NOT_SHARED);
+    }
+
+    private function isInstanceOfService($service): bool
+    {
+        return $service instanceof Service;
     }
 }
