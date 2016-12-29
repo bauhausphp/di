@@ -12,10 +12,10 @@ class DI extends Container
 {
     public function __construct(array $services = [])
     {
-        foreach ($services as $label => $item) {
-            if (!$item instanceof Service) {
+        foreach ($services as $name => $service) {
+            if (!$service instanceof Service) {
                 throw new \InvalidArgumentException(
-                    "The service '$label' is not an instance of Bauhaus\DI\Service"
+                    "The service '$name' is not an instance of Bauhaus\DI\Service"
                 );
             }
         }
@@ -23,52 +23,52 @@ class DI extends Container
         parent::__construct($services);
     }
 
-    public function get($label)
+    public function get($name)
     {
         try {
-            $item = parent::get($label);
+            $service = parent::get($name);
         } catch (ItemNotFoundException $e) {
-            throw new ServiceNotFoundException($label);
+            throw new ServiceNotFoundException($name);
         }
 
-        return $item->value();
+        return $service->value();
     }
 
     public function all(): array
     {
         $arr = [];
-        foreach ($this->items() as $label => $item) {
-            $arr[$label] = $item->value();
+        foreach ($this->items() as $name => $service) {
+            $arr[$name] = $service->value();
         }
 
         return $arr;
     }
 
-    public function withService(string $label, callable $service, $type = Service::TYPE_SHARED): self
+    public function withService(string $name, callable $service, $type = Service::TYPE_SHARED): self
     {
-        if ($this->has($label)) {
-            throw new ServiceAlreadyExistsException($label);
+        if ($this->has($name)) {
+            throw new ServiceAlreadyExistsException($name);
         }
 
         $services = $this->items();
-        $services[$label] = new Service($service, $type);
+        $services[$name] = new Service($service, $type);
 
         return new self($services);
     }
 
-    public function withSharedService(string $label, callable $service): self
+    public function withSharedService(string $name, callable $service): self
     {
-        return $this->withService($label, $service, Service::TYPE_SHARED);
+        return $this->withService($name, $service, Service::TYPE_SHARED);
     }
 
-    public function withLazyService(string $label, callable $service): self
+    public function withLazyService(string $name, callable $service): self
     {
-        return $this->withService($label, $service, Service::TYPE_LAZY);
+        return $this->withService($name, $service, Service::TYPE_LAZY);
     }
 
-    public function withNotSharedService(string $label, callable $service): self
+    public function withNotSharedService(string $name, callable $service): self
     {
-        return $this->withService($label, $service, Service::TYPE_NOT_SHARED);
+        return $this->withService($name, $service, Service::TYPE_NOT_SHARED);
     }
 
     private function items(): array
