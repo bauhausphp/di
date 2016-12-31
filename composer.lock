@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "bauhaus/container",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bauhausphp/container.git",
-                "reference": "c654b0497bd4ae9b363740bfbc8818066c565d0d"
+                "reference": "3905180c55de2b8b1c205820c92a86088d7c6900"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bauhausphp/container/zipball/c654b0497bd4ae9b363740bfbc8818066c565d0d",
-                "reference": "c654b0497bd4ae9b363740bfbc8818066c565d0d",
+                "url": "https://api.github.com/repos/bauhausphp/container/zipball/3905180c55de2b8b1c205820c92a86088d7c6900",
+                "reference": "3905180c55de2b8b1c205820c92a86088d7c6900",
                 "shasum": ""
             },
             "require": {
@@ -40,15 +40,15 @@
             "authors": [
                 {
                     "name": "Felipe Martins",
-                    "homepage": "http://fefas.net"
+                    "homepage": "https://blog.fefas.net"
                 }
             ],
-            "description": "Define and implement a simple container.",
+            "description": "Define and implement a simple container",
             "keywords": [
                 "bauhaus",
                 "container"
             ],
-            "time": "2016-12-31T02:32:09+00:00"
+            "time": "2016-12-31T14:44:39+00:00"
         },
         {
             "name": "container-interop/container-interop",
