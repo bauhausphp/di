@@ -37,7 +37,7 @@ class DI extends Container
         return $service->value();
     }
 
-    public function toArray(): array
+    public function asArray(): array
     {
         $arr = [];
         foreach ($this->items() as $name => $service) {
