@@ -169,7 +169,7 @@ class DITest extends \PHPUnit_Framework_TestCase
                 return 'value2';
             });
 
-        $this->assertEquals($expectedResult, $diContainer->toArray());
+        $this->assertEquals($expectedResult, $diContainer->asArray());
     }
 
     /**
