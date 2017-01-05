@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b58472907e8b94859bf359fb09149126",
+    "content-hash": "f7e89545ccbab6607e1050b83078a9e9",
     "packages": [
         {
             "name": "bauhaus/container",
-            "version": "v1.0.1",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bauhausphp/container.git",
-                "reference": "3905180c55de2b8b1c205820c92a86088d7c6900"
+                "reference": "234b6242b322054cc8f6e75868128f9fa567844c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bauhausphp/container/zipball/3905180c55de2b8b1c205820c92a86088d7c6900",
-                "reference": "3905180c55de2b8b1c205820c92a86088d7c6900",
+                "url": "https://api.github.com/repos/bauhausphp/container/zipball/234b6242b322054cc8f6e75868128f9fa567844c",
+                "reference": "234b6242b322054cc8f6e75868128f9fa567844c",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +48,7 @@
                 "bauhaus",
                 "container"
             ],
-            "time": "2016-12-31T14:44:39+00:00"
+            "time": "2017-01-05T21:51:03+00:00"
         },
         {
             "name": "container-interop/container-interop",
