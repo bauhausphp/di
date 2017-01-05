@@ -3,7 +3,7 @@
 namespace Bauhaus;
 
 use Bauhaus\Container;
-use Bauhaus\Container\Factory as ContainerFactory;
+use Bauhaus\Container\Factory;
 use Bauhaus\Container\ItemNotFoundException;
 use Bauhaus\Container\ItemAlreadyExistsException;
 use Bauhaus\DI\Service;
@@ -49,11 +49,11 @@ class DI extends Container
 
     public function withService(string $name, callable $callable, $type = ServiceType::SHARED): self
     {
-        $containerFactory = new ContainerFactory();
-        $newService = new Service($callable, $type);
+        $factory = new Factory($this);
+        $service = new Service($callable, $type);
 
         try {
-            return $containerFactory->containerWithItemAdded($this, $name, $newService);
+            return $factory->containerWithItemAdded($name, $service);
         } catch (ItemAlreadyExistsException $e) {
             throw new ServiceAlreadyRegisteredException($name);
         }
