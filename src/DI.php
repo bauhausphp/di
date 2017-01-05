@@ -4,7 +4,6 @@ namespace Bauhaus;
 
 use Bauhaus\Container;
 use Bauhaus\Container\Factory;
-use Bauhaus\Container\ItemNotFoundException;
 use Bauhaus\Container\ItemAlreadyExistsException;
 use Bauhaus\DI\Service;
 use Bauhaus\DI\ServiceType;
@@ -13,26 +12,9 @@ use Bauhaus\DI\ServiceAlreadyRegisteredException;
 
 class DI extends Container
 {
-    public function __construct(array $services = [])
-    {
-        foreach ($services as $name => $service) {
-            if (false === $this->isInstanceOfService($service)) {
-                throw new \InvalidArgumentException(
-                    "The service '$name' is not an instance of Bauhaus\DI\Service"
-                );
-            }
-        }
-
-        parent::__construct($services);
-    }
-
     public function get($name)
     {
-        try {
-            $service = parent::get($name);
-        } catch (ItemNotFoundException $e) {
-            throw new ServiceNotFoundException($name);
-        }
+        $service = parent::get($name);
 
         return $service->value();
     }
@@ -74,8 +56,18 @@ class DI extends Container
         return $this->withService($name, $service, ServiceType::NOT_SHARED);
     }
 
-    private function isInstanceOfService($service): bool
+    protected function canContain($service): bool
     {
         return $service instanceof Service;
+    }
+
+    protected function itemCanNotBeContainedExceptionMessage(string $name): string
+    {
+        return "The service '$name' is not an instance of Bauhaus\DI\Service";
+    }
+
+    protected function itemNotFoundHandler(string $name)
+    {
+        throw new ServiceNotFoundException($name);
     }
 }
