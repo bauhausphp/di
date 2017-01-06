@@ -60,7 +60,7 @@ class DIContainerTest extends \PHPUnit_Framework_TestCase
 
         // assert
         $this->assertEquals('result', $resultOfGet);
-        $this->assertEquals('result',  $resultOfMagicGet);
+        $this->assertEquals('result', $resultOfMagicGet);
     }
 
     public function availableServiceTypes()
