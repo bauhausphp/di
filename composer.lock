@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6702d788a5e9e326c90b5844b0ccebea",
+    "content-hash": "26b86a26742cec49fcbe4a76620784fb",
     "packages": [
         {
             "name": "bauhaus/container",

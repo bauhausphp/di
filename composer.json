@@ -8,6 +8,8 @@
    "keywords": [
       "bauhaus",
       "di",
+      "dependency injection",
+      "di container",
       "dependency injection container"
    ],
 
@@ -19,13 +21,13 @@
    ],
 
    "support": {
-      "issues": "https://github.com/bauhausphp/di/issues",
-      "source": "https://github.com/bauhausphp/di"
+      "issues": "https://github.com/bauhausphp/di-container/issues",
+      "source": "https://github.com/bauhausphp/di-container"
    },
 
    "require": {
       "php": ">=7.1",
-      "bauhaus/container": "0.*"
+      "bauhaus/container": "v0.*"
    },
 
    "autoload": {
