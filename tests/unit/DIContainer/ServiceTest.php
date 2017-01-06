@@ -11,11 +11,8 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionOccursWhenAnInvalidTypeIsGivenForCreatingANewItem()
     {
-        $serviceFunction = function () {
+        new Service(function () {
             return true;
-        };
-        $serviceType = 'wrongType';
-
-        new Service($serviceFunction, $serviceType);
+        }, 'wrongType');
     }
 }
