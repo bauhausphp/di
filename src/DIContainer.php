@@ -4,12 +4,12 @@ namespace Bauhaus;
 
 use Bauhaus\Container;
 use Bauhaus\Container\Factory;
-use Bauhaus\DI\Service;
-use Bauhaus\DI\ServiceType;
-use Bauhaus\DI\ServiceNotFoundException;
-use Bauhaus\DI\ServiceAlreadyRegisteredException;
+use Bauhaus\DIContainer\Service;
+use Bauhaus\DIContainer\ServiceType;
+use Bauhaus\DIContainer\ServiceNotFoundException;
+use Bauhaus\DIContainer\ServiceAlreadyRegisteredException;
 
-class DI extends Container
+class DIContainer extends Container
 {
     public function get($name)
     {

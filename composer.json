@@ -1,5 +1,5 @@
 {
-   "name": "bauhaus/di",
+   "name": "bauhaus/di-container",
    "description": "Simple dependecy injection container.",
 
    "type": "library",

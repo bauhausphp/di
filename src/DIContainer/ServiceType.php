@@ -1,6 +1,6 @@
 <?php
 
-namespace Bauhaus\DI;
+namespace Bauhaus\DIContainer;
 
 class ServiceType
 {

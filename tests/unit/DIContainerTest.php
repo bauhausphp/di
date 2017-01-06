@@ -2,10 +2,10 @@
 
 namespace Bauhaus;
 
-use Bauhaus\DI\Service;
-use Bauhaus\DI\ServiceType;
+use Bauhaus\DIContainer\Service;
+use Bauhaus\DIContainer\ServiceType;
 
-class DITest extends \PHPUnit_Framework_TestCase
+class DIContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -13,7 +13,7 @@ class DITest extends \PHPUnit_Framework_TestCase
     public function aNewContainerIsReturnedWhenANewServiceIsRegistered()
     {
         // arrange
-        $diContainer = (new DI())->withService('service', function () {
+        $diContainer = (new DIContainer())->withService('service', function () {
             return 'service result';
         });
 
@@ -48,7 +48,7 @@ class DITest extends \PHPUnit_Framework_TestCase
         $service = function () use ($expectedResult) {
             return $expectedResult;
         };
-        $diContainer = (new DI())->withService($serviceName, $service, $serviceType);
+        $diContainer = (new DIContainer())->withService($serviceName, $service, $serviceType);
 
         // act
         $resultOfGet = $diContainer->get($serviceName);
@@ -77,7 +77,7 @@ class DITest extends \PHPUnit_Framework_TestCase
         $before = microtime(true);
         usleep(100);
 
-        $diContainer = (new DI())
+        $diContainer = (new DIContainer())
             ->withSharedService('service', function () {
                 $class = new \StdClass();
                 $class->during = microtime(true);
@@ -109,7 +109,7 @@ class DITest extends \PHPUnit_Framework_TestCase
         $before = microtime(true);
         usleep(100);
 
-        $diContainer = (new DI())
+        $diContainer = (new DIContainer())
             ->withLazyService('service', function () {
                 $class = new \StdClass();
                 $class->during = microtime(true);
@@ -137,7 +137,7 @@ class DITest extends \PHPUnit_Framework_TestCase
      */
     public function aNotSharedServiceEvaluatesItsAnonymousFunctionEveryTimeItIsCalled()
     {
-        $diContainer = (new DI())
+        $diContainer = (new DIContainer())
             ->withNotSharedService('service', function () {
                 return new \StdClass();
             });
@@ -161,7 +161,7 @@ class DITest extends \PHPUnit_Framework_TestCase
             'service2' => 'value2',
         ];
 
-        $diContainer = (new DI())
+        $diContainer = (new DIContainer())
             ->withService('service1', function () {
                 return 'value1';
             })
@@ -174,24 +174,24 @@ class DITest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException Bauhaus\DI\ServiceNotFoundException
+     * @expectedException Bauhaus\DIContainer\ServiceNotFoundException
      * @expectedExceptionMessage No service found with name 'nonExisting'
      */
     public function exceptionOccursWhenTryingToRetrieveAServiceWithNonExistingLabel()
     {
-        $diContainer = new DI();
+        $diContainer = new DIContainer();
 
         $diContainer->nonExisting;
     }
 
     /**
      * @test
-     * @expectedException Bauhaus\DI\ServiceAlreadyRegisteredException
+     * @expectedException Bauhaus\DIContainer\ServiceAlreadyRegisteredException
      * @expectedExceptionMessage There is already a service registered with the name 'alreadTaken'
      */
     public function exceptionOccursWhenTryingToRegisterAServiceWithAnAlreadyTakenLabel()
     {
-        (new DI())
+        (new DIContainer())
             ->withService('alreadTaken', function () {
                 return 'result';
             })
@@ -207,7 +207,7 @@ class DITest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionOccursWhenTryingToCreateUsingArrayThatContainsValueThat()
     {
-        new DI([
+        new DIContainer([
             'wrongItem' => 'notDIItem',
         ]);
     }
