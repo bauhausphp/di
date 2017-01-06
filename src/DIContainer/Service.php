@@ -1,6 +1,6 @@
 <?php
 
-namespace Bauhaus\DI;
+namespace Bauhaus\DIContainer;
 
 class Service
 {
@@ -13,7 +13,7 @@ class Service
     {
         if (self::isServiceTypeInvalid($type)) {
             throw new \InvalidArgumentException(
-                "The given type '$type' is invalid to a DI service"
+                "The given type '$type' is invalid to a DI container service"
             );
         }
 
